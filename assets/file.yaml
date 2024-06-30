@@ -1,0 +1,9 @@
+name: example
+
+stage:
+
+image: bash:latest
+
+jobs:
+  job1: example-job1
+  job2: example-job2
