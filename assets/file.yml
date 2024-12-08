@@ -1,0 +1,2 @@
+image: "bash:latest"
+command: "ls"

@@ -2,14 +2,21 @@ use yaml_rust2::YamlLoader;
 use std::fs;
 use std::io::prelude::*;
 
+// Use a struct here?
+struct Pipeline {
+    image: String,
+    command: String,
+}
+
 fn main() {
 
     let path = "assets/file.yaml";
-    let image = get_image_name(path);
-    println!("You are about to run image --> {image}");
+    let pipeline = build_pipeline(path);
+    println!("{}", pipeline.image);
+    println!("{}", pipeline.command);
 }
 
-fn get_image_name(path: &str) -> String {
+fn build_pipeline(path: &str) -> Pipeline {
     let mut file = fs::File::open(path).expect("Unable to open file");
     let mut contents = String::new();
 
@@ -17,6 +24,12 @@ fn get_image_name(path: &str) -> String {
         .expect("Unable to read file");
     let docs = YamlLoader::load_from_str(&contents).unwrap();
     let doc = &docs[0];
-    let image_name = doc["image"].as_str().unwrap();
-    return image_name.to_string();
+
+    let image = doc["image"].as_str().unwrap();
+    let command = doc["command"].as_str().unwrap();
+    
+    Pipeline {
+        image: image.to_string(),
+        command: command.to_string(),
+    }
 }
