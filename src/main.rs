@@ -2,7 +2,6 @@ use yaml_rust2::YamlLoader;
 use std::fs;
 use std::io::prelude::*;
 
-// Use a struct here?
 struct Pipeline {
     image: String,
     command: String,
@@ -10,10 +9,10 @@ struct Pipeline {
 
 fn main() {
 
-    let path = "assets/file.yaml";
+    let path = "assets/file.yml";
     let pipeline = build_pipeline(path);
-    println!("{}", pipeline.image);
-    println!("{}", pipeline.command);
+    println!("You are using image   --> {}", pipeline.image);
+    println!("You are using command --> {}", pipeline.command);
 }
 
 fn build_pipeline(path: &str) -> Pipeline {
@@ -24,10 +23,15 @@ fn build_pipeline(path: &str) -> Pipeline {
         .expect("Unable to read file");
     let docs = YamlLoader::load_from_str(&contents).unwrap();
     let doc = &docs[0];
-
+    // dbg!(doc);
     let image = doc["image"].as_str().unwrap();
     let command = doc["command"].as_str().unwrap();
-    
+    // Todo:
+    // Create branching logic between gitlab, github, etc.
+    // define jobs in struct
+    // allow for multiple jobs in struct
+    // allow for different job definitions between gitlab and github 
+    // Start with gitlab
     Pipeline {
         image: image.to_string(),
         command: command.to_string(),
